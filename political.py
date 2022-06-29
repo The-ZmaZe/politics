@@ -29,6 +29,35 @@ class House:
     def order_seats(self, order=ORDER):
         self.assembly.sort(key=lambda actor: order.index(actor.tag))
 
+    def seats_per_tags(self):
+        tags = {}
+        for p in self.assembly:
+            try:
+                tags[p.tag] += 1
+            except KeyError:
+                tags[p.tag] = 1
+        return tags
+
+    def draw_assembly(self):
+        pen = turtle.Turtle()
+        pen.hideturtle()
+        pen.speed(0)
+        pen.width(3)
+        pen.up()
+        pen.goto(-100, 0)
+        pen.down()
+        pen.seth(-180)
+        for p in an.assembly:
+            pen.color(COLORS[p.tag])
+            pen.up()
+            pen.fd(150)
+            pen.down()
+            pen.fd(200)
+            pen.up()
+            pen.back(350)
+            pen.right(180/577)
+        turtle.exitonclick()
+
 
 class Ideology:
     def __init__(self,
@@ -74,24 +103,5 @@ an.attribute_seats(RESULTATS_1ER_TOUR)
 an.order_seats()
 
 print(an.assembly)
-
-import turtle
-
-pen = turtle.Turtle()
-pen.hideturtle()
-pen.speed(0)
-pen.width(3)
-pen.up()
-pen.goto(-100, 0)
-pen.down()
-pen.seth(-180)
-for p in an.assembly:
-    pen.color(COLORS[p.tag])
-    pen.up()
-    pen.fd(150)
-    pen.down()
-    pen.fd(200)
-    pen.up()
-    pen.back(350)
-    pen.right(180/577)
-turtle.exitonclick()
+print(an.seats_per_tags())
+an.draw_assembly()
