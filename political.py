@@ -1,4 +1,5 @@
 from data import *
+import turtle
 
 class Actor:
     def __init__(self, tag) -> None:
