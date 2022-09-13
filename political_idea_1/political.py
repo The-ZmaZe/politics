@@ -6,16 +6,29 @@ class HelloWorld(Action):
     desc = "Say hi"
 
     @classmethod
-    def execute(cls, authority):
+    def execute(cls, authority, country, **kwargs):
         print(f"Hello from {authority}")
+
+
+class GrossMinimumWage(Action):
+    code = "gmw"
+    desc = "Update the Gross Minimum Wage"
+
+    @classmethod
+    def execute(cls, authority, country, **kwargs):
+        country.gross_minimum_wage = kwargs["value"]
 
 
 class DevConstitution(Constitution):
     code = "dev_constitution"
     authorities = {
         "president": {
-            "name": "Président de la République",
+            "name": "Président.e de la République",
             "qualif": ["hello_world"]
+        },
+        "prime_minister": {
+            "name": "Premier.ère Ministre",
+            "qualif": ["hello_world", "gmw"]
         }
     }
 
@@ -34,3 +47,5 @@ class DevCountry(Country):
 
 
 HelloWorld.order("president", DevCountry)
+GrossMinimumWage.order("prime_minister", DevCountry, value=1700)
+print(DevCountry.gross_minimum_wage)

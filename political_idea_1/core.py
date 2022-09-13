@@ -8,10 +8,10 @@ class UnauthorizedAction(Exception):
 
 class Action:
     @classmethod
-    def order(cls, authority: str, country):
+    def order(cls, authority: str, country, **kwargs):
         if cls.code in country.constitution.authorities[authority]["qualif"]:
             try:
-                cls.execute(authority)
+                cls.execute(authority, country, **kwargs)
             except AttributeError:
                 raise UndefinedAction(f"{cls.code} "
                                       + "has no execution process defined")
